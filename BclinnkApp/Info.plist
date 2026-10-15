@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- App Transport Security: izinkan HTTP untuk cm.bclinnk.com -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>cm.bclinnk.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>bclinnk.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
+
+	<!-- Izin kamera (jika web ada fitur upload foto) -->
+	<key>NSCameraUsageDescription</key>
+	<string>Aplikasi memerlukan kamera untuk mengunggah foto.</string>
+
+	<!-- Izin galeri foto -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Aplikasi memerlukan akses galeri untuk memilih foto.</string>
+
+	<!-- Orientasi layar: potrait saja -->
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+
+	<!-- Tampilan full-screen, tidak pakai status bar style default -->
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<true/>
+
+	<!-- Bundle settings -->
+	<key>CFBundleDevelopmentRegion</key>
+	<string>id</string>
+	<key>CFBundleDisplayName</key>
+	<string>Bclinnk</string>
+</dict>
+</plist>
+
