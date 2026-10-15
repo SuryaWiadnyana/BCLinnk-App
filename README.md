@@ -30,8 +30,7 @@ Project ini menggunakan GitHub Actions untuk build di macOS runner (gratis untuk
 
 2. **Push kode**:
    ```bash
-   cd BclinnkApp
-   git init
+   cd "BCLinnk IOS App"
    git add .
    git commit -m "Initial commit - BclinnkApp iOS WebView"
    git remote add origin https://github.com/USERNAME/BclinnkApp.git
