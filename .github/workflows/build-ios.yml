@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Build Unsigned iOS App
+    name: Build iOS App (Device & Simulator)
     runs-on: macos-14
 
     steps:
@@ -29,7 +29,8 @@ jobs:
         run: |
           xcodebuild -list -project BclinnkApp.xcodeproj
 
-      - name: Build Archive
+      # --- 1. BUILD UNTUK PERANGKAT FISIK (IPA) ---
+      - name: Build Archive (Physical Device)
         run: |
           xcodebuild archive \
             -project BclinnkApp.xcodeproj \
@@ -42,11 +43,6 @@ jobs:
             DEVELOPMENT_TEAM="" \
             COMPILER_INDEX_STORE_ENABLE=NO \
             -configuration Release
-
-      - name: Verify Archive Structure
-        run: |
-          echo "=== Applications in Archive ==="
-          ls -la ${{ github.workspace }}/build/BclinnkApp.xcarchive/Products/Applications/
 
       - name: Package Unsigned IPA
         run: |
@@ -63,6 +59,33 @@ jobs:
         with:
           name: BclinnkApp-unsigned-ipa
           path: build/BclinnkApp-unsigned.ipa
+          retention-days: 30
+
+      # --- 2. BUILD UNTUK SIMULATOR (APPETIZE.IO) ---
+      - name: Build for iOS Simulator (Appetize.io)
+        run: |
+          xcodebuild build \
+            -project BclinnkApp.xcodeproj \
+            -scheme BclinnkApp \
+            -destination 'generic/platform=iOS Simulator' \
+            -configuration Release \
+            -derivedDataPath ${{ github.workspace }}/build/derivedData \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=""
+
+      - name: Package Simulator App for Appetize.io
+        run: |
+          cd ${{ github.workspace }}/build/derivedData/Build/Products/Release-iphonesimulator
+          zip -qr ${{ github.workspace }}/build/BclinnkApp-simulator.zip BclinnkApp.app
+          echo "=== Simulator ZIP created successfully for Appetize ==="
+          ls -lh ${{ github.workspace }}/build/BclinnkApp-simulator.zip
+
+      - name: Upload Simulator Artifact (Appetize.io)
+        uses: actions/upload-artifact@v4
+        with:
+          name: BclinnkApp-simulator-appetize
+          path: build/BclinnkApp-simulator.zip
           retention-days: 30
 
       - name: Upload xcarchive Artifact
